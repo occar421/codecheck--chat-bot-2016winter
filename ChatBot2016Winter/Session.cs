@@ -3,12 +3,13 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Net.WebSockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace ChatBot2016Winter
 {
+	using SubPrograms;
+
 	public class Session
 	{
 		static ConcurrentDictionary<int, Session> AllSessions { get; }
@@ -39,14 +40,38 @@ namespace ChatBot2016Winter
 
 				while (received.MessageType == WebSocketMessageType.Text)
 				{
-					var request = RequestContainer.FromBytes(buffer, 0, received.Count);
-					var repeatContainer = new ResponseContainer
+					RequestContainer request;
+					try
 					{
-						IsSuccess = true,
-						Type = MessageType.Message,
-						Text = request.Text
-					};// TODO add Id
-					await Broadcast(repeatContainer.ToBytes());
+						request = RequestContainer.FromBytes(buffer, 0, received.Count);
+						var repeatContainer = new ResponseContainer
+						{
+							IsSuccess = true,
+							Type = MessageType.Message,
+							Text = request.Text
+						};
+						await Broadcast(repeatContainer.ToBytes());
+					}
+					catch
+					{
+						var repeatContainer = new ResponseContainer
+						{
+							IsSuccess = false,
+							Type = MessageType.Bot,
+							Text = "Invalid json format."
+						};
+						var bytes = repeatContainer.ToBytes();
+						if (socket.TryGetTarget(out s))
+						{
+							await s.SendAsync(new ArraySegment<byte>(bytes, 0, bytes.Length), WebSocketMessageType.Text, true, CancellationToken.None);
+							received = await s.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+							continue;
+						}
+						else
+						{
+							break;
+						}
+					}
 
 					// Bot Command Section
 					var commandElements = request.Text.Split(' ');
@@ -62,26 +87,37 @@ namespace ChatBot2016Winter
 							// => ["ping", "foo", "bar"]	: Skip(1)
 							commandElements.Skip(1).ToArray() :
 							// bot:ping foo bar
-							// => ["foo", "bar"]			: Skip(1)
-							// => ["ping", "foo", "bar"]	: Prepend(...)
-							commandElements.Skip(1).Prepend(request.Text.Split(':')[1]).ToArray();
+							// => "ping foo bar"			: Split(':')[1]
+							// => ["ping", "foo", "bar"]	: Split(' ')
+							request.Text.Split(':')[1].Split(' ');
 
+						ISubProgram program = null;
 						switch (subProgramArgs[0])
 						{
 							case "ping":
-								var ping = new SubPrograms.Ping();
-								ping.Run(commandElements);
-								if (ping.Response != null)
-								{
-									await Broadcast(ping.Response.ToBytes());
-								}
+								program = new Ping();
 								break;
 
-							// TODO case "cmd" add remove ls
+							case "help":
+								program = new Help();
+								break;
+
+							case "cmd":
+								program = new Cmd();
+								break;
 
 							default:
-								// TODO check user defined scripts
+								program = new UserProgram();
 								break;
+						}
+
+						program?.Run(subProgramArgs);
+						if (program?.Responses != null)
+						{
+							foreach (var res in program.Responses)
+							{
+								await Broadcast(res.ToBytes());
+							}
 						}
 					}
 

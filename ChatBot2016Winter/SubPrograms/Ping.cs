@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ChatBot2016Winter.SubPrograms
 {
-	public class Ping
+	public class Ping : ISubProgram
 	{
-		public ResponseContainer Response { get; private set; }
+		public IEnumerable<ResponseContainer> Responses { get; private set; }
 
 		public void Run(string[] args)
 		{
-			Response = new ResponseContainer
-			{
-				IsSuccess = true,
-				Type = MessageType.Bot,
-				Text = "pong"
+			Responses = new[] {
+				new ResponseContainer
+				{
+					IsSuccess = true,
+					Type = MessageType.Bot,
+					Text = "pong"
+				}
 			};
 		}
 	}
