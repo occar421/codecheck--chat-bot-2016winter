@@ -17,7 +17,7 @@ namespace ChatBot2016Winter.SubPrograms
 
 		public void Run(string[] args)
 		{
-			switch (args[1])
+			switch (args.Skip(1).FirstOrDefault() ?? "help")
 			{
 				case "add":
 					Add(args);
@@ -32,19 +32,16 @@ namespace ChatBot2016Winter.SubPrograms
 					break;
 
 				case "help":
+				default:
 					Responses = new[]
 					{
 						new ResponseContainer
 						{
 							IsSuccess=true,
-							Text="bot cmd [add|remove|list|help]",
+							Text="Usage: bot cmd [add|remove|list|help]",
 							Type=MessageType.Bot
 						}
 					};
-					break;
-
-				default:
-
 					break;
 			}
 		}
@@ -59,8 +56,8 @@ namespace ChatBot2016Winter.SubPrograms
 					new ResponseContainer
 					{
 						IsSuccess=false,
-						Text="[cmd add] Usage: cmd add [program name] [argc] [code...(space-char allowed)]\n"+
-								"if assigns variable 'description', register it.",
+						Text="[cmd add] Usage: cmd add [program name] [argc] [code...(whitespace-char allowed)]\n"+
+								"if assigns variable 'description', register with it.",
 						Type=MessageType.Bot
 					}
 				};
@@ -76,7 +73,7 @@ namespace ChatBot2016Winter.SubPrograms
 					new ResponseContainer
 					{
 						IsSuccess = false,
-						Text = $"[cmd add] program '{programName}' already exists. Try with another name.",
+						Text = $"[cmd add] Program '{programName}' already exists. Try with another name.",
 						Type = MessageType.Bot
 					}
 				};
@@ -90,7 +87,7 @@ namespace ChatBot2016Winter.SubPrograms
 					new ResponseContainer
 					{
 						IsSuccess = false,
-						Text = "[cmd add] args should be 0 or larger.",
+						Text = "[cmd add] Program args should be 0 or larger.",
 						Type = MessageType.Bot
 					}
 				};
@@ -157,7 +154,7 @@ namespace ChatBot2016Winter.SubPrograms
 								new ResponseContainer
 								{
 									IsSuccess = false,
-									Text = "[cmd add] test timeout or throw exception.",
+									Text = "[cmd add] Test timeout or throws exception.",
 									Type = MessageType.Bot
 								}
 							};
@@ -229,7 +226,7 @@ namespace ChatBot2016Winter.SubPrograms
 					new ResponseContainer
 					{
 						IsSuccess = false,
-						Text = $"[cmd remove] program '{programName}' doesn't exists.",
+						Text = $"[cmd remove] Program '{programName}' doesn't exists.",
 						Type = MessageType.Bot
 					}
 				};

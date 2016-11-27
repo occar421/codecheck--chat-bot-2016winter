@@ -17,8 +17,8 @@ namespace ChatBot2016Winter.SubPrograms
 				{
 					IsSuccess=true,
 					Text="bot ping: returns \"pong\".\n" 
-						+"bot cmd: control users' programs. See 'bot cmd help'"
-						+"bot help: this command."
+						+"bot cmd: control users' programs. See 'bot cmd help'.\n"
+						+"bot help: this command.\n"
 						+"bot [program name]: runs user-made program if exists. See 'bot cmd list'",
 					Type=MessageType.Bot
 				}
