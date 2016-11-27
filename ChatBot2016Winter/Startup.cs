@@ -19,7 +19,7 @@ namespace ChatBot2016Winter
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
-			SubProgramPathBase = $"{env.ContentRootPath}/SubPrograms/";
+			SubProgramPathBase = $"{env.WebRootPath}/UserPrograms/";
 
 			loggerFactory.AddConsole();
 
