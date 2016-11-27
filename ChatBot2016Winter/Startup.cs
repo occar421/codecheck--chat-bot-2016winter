@@ -47,10 +47,8 @@ namespace ChatBot2016Winter
 				await next();
 			});
 
-			app.Run(async (context) =>
-			{
-				await context.Response.WriteAsync("Hello World!");
-			});
+			app.UseDefaultFiles();
+			app.UseStaticFiles();
 		}
 	}
 }

@@ -1,0 +1,120 @@
+﻿@font-face {
+	font-family: "YuGothicSet";
+	font-weight: 500;
+	font-style: normal;
+	src: local("Yu Gothic Medium"), local("YuGothic Medium"), local("Yu Gothic"), local("YuGothic"), local("游ゴシック"), local("游ゴシック体");
+}
+
+$user-font: 'Roboto Mono', YuGothicSet, monospace;
+$bot-font: 'Share Tech Mono', YuGothicSet, monospace;
+$input-area-height: 150px;
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 16px;
+}
+
+body {
+	background-color: #373C38; // 藍墨茶
+}
+
+form {
+	background-color: #1C1C1C; // 墨
+	padding: 5px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: $input-area-height;
+
+	textarea {
+		border: 0;
+		padding: 10px;
+		min-height: 100px;
+		width: 100%;
+		font-size: 15px;
+		background-color: #FCFAF2; // 白練
+		font-family: $user-font;
+	}
+
+	button {
+		display: inline-block;
+		background-color: #58B2DC; // 空
+		border: none;
+		width: 10%;
+		padding: 12.5px;
+		color: #FFFFFB; // 胡粉
+	}
+
+	p.guide {
+		display: inline-block;
+		margin-left: 10px;
+		font-family: $user-font;
+		color: #BDC0BA; // 白鼠
+		position: relative;
+		top: 1.5px;
+	}
+
+	p.logo {
+		display: inline-block;
+		float: right;
+		margin: 7.5px 10px;
+		font-family: $bot-font;
+		font-size: 25px;
+		color: #F7D94C; // 菜の花
+	}
+}
+
+#messages {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	height: calc(100vh - 150px); // $input-area-height;
+	overflow-x: hidden;
+
+	li {
+		line-height: 20px;
+		margin: 5px 5px;
+		padding: 10px 10px;
+		border-radius: 10px 10px;
+
+		&:before {
+			font-family: FontAwesome;
+			padding-right: 0.5em;
+			vertical-align: top;
+		}
+
+		.clientMessage {
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		&.user {
+			font-family: $user-font;
+			background-color: #828282; // 灰
+			color: #FCFAF2; // 白鼠
+			&:before {
+				content: "\f007"; /* fa-user */
+			}
+		}
+
+		&.bot {
+			font-family: $bot-font;
+			color: #FCFAF2; // 白鼠
+			&.success {
+				background-color: #376B6D; // お召茶
+				&:before {
+					content: "\f118"; /* fa-smile-o */
+				}
+			}
+
+			&.fail {
+				background-color: #9E7A7A; // 梅鼠
+				&:before {
+					content: "\f119"; /* fa-frown-o */
+				}
+			}
+		}
+	}
+}

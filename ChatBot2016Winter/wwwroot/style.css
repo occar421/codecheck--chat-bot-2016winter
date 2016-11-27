@@ -1,0 +1,92 @@
+﻿@charset "UTF-8";
+@font-face {
+  font-family: "YuGothicSet";
+  font-weight: 500;
+  font-style: normal;
+  src: local("Yu Gothic Medium"), local("YuGothic Medium"), local("Yu Gothic"), local("YuGothic"), local("游ゴシック"), local("游ゴシック体"); }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px; }
+
+body {
+  background-color: #373C38; }
+
+form {
+  background-color: #1C1C1C;
+  padding: 5px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 150px; }
+  form textarea {
+    border: 0;
+    padding: 10px;
+    min-height: 100px;
+    width: 100%;
+    font-size: 15px;
+    background-color: #FCFAF2;
+    font-family: "Roboto Mono", YuGothicSet, monospace; }
+  form button {
+    display: inline-block;
+    background-color: #58B2DC;
+    border: none;
+    width: 10%;
+    padding: 12.5px;
+    color: #FFFFFB; }
+  form p.guide {
+    display: inline-block;
+    margin-left: 10px;
+    font-family: "Roboto Mono", YuGothicSet, monospace;
+    color: #BDC0BA;
+    position: relative;
+    top: 1.5px; }
+  form p.logo {
+    display: inline-block;
+    float: right;
+    margin: 7.5px 10px;
+    font-family: "Share Tech Mono", YuGothicSet, monospace;
+    font-size: 25px;
+    color: #F7D94C; }
+
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - 150px);
+  overflow-x: hidden; }
+  #messages li {
+    line-height: 20px;
+    margin: 5px 5px;
+    padding: 10px 10px;
+    border-radius: 10px 10px; }
+    #messages li:before {
+      font-family: FontAwesome;
+      padding-right: 0.5em;
+      vertical-align: top; }
+    #messages li .clientMessage {
+      display: inline-block;
+      vertical-align: middle; }
+    #messages li.user {
+      font-family: "Roboto Mono", YuGothicSet, monospace;
+      background-color: #828282;
+      color: #FCFAF2; }
+      #messages li.user:before {
+        content: "\f007";
+        /* fa-user */ }
+    #messages li.bot {
+      font-family: "Share Tech Mono", YuGothicSet, monospace;
+      color: #FCFAF2; }
+      #messages li.bot.success {
+        background-color: #376B6D; }
+        #messages li.bot.success:before {
+          content: "\f118";
+          /* fa-smile-o */ }
+      #messages li.bot.fail {
+        background-color: #9E7A7A; }
+        #messages li.bot.fail:before {
+          content: "\f119";
+          /* fa-frown-o */ }
+
